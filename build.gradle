@@ -22,7 +22,6 @@ dependencies {
 
     // logging
     compile 'log4j:log4j:1.2.17'
-    compile 'log4j:log4j-api:1.2.17'
 
     // redis
     compile 'redis.clients:jedis:2.8.0'
