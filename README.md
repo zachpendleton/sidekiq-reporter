@@ -11,6 +11,10 @@ sizes from multiple queues.
 Sidekiq Reporter is configured by a `reporter.properties` file on the classpath.
 
 ```ini
+# if using statsd, configure statsd server
+graphite.host=statsd.mycompany.com
+graphite.port=8125
+
 # declare followed queues as a comma-separated list
 sidekiq.queues=default,urgent
 
@@ -24,7 +28,7 @@ sidekiq.queues.urgent.cloudwatch.namespace=app
 sidekiq.queues.urgent.cloudwatch.metric=QueueSize_Urgent
 ```
 
-## Building
+# Building
 
 1. Clone the project: `git clone https://github.com/zachpendleton/sidekiq-reporter`
 2. Add a `reporter.properties` file at `src/main/resources` and add your

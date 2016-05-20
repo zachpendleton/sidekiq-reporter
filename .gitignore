@@ -1,5 +1,6 @@
 build
 gradle
+out
 src/main/resources/reporter.properties
 .gradle
 .idea/gradle.xml
