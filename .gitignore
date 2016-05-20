@@ -1,0 +1,7 @@
+.gradle
+.idea/gradle.xml
+.idea/tasks.xml
+.idea/workspace.xml
+.idea/dictionaries/**/*
+.idea/libraries/**/*
+.idea/**/*.iml
