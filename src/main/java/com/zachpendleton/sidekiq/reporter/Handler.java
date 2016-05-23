@@ -25,12 +25,16 @@ public class Handler {
         if (properties == null) {
             logger.error("unable to load configuration. check classpath for `reporter.properties`");
             logger.error("exiting");
-            System.exit(1);
+            return;
         }
 
-        for (String queueName : properties.getProperty("sidekiq.queues").split(",")) {
+        String[] queueNames = properties.getProperty("sidekiq.queues").split(",");
+
+        for (String queueName : queueNames) {
             SidekiqQueue queue = new SidekiqQueue(queueName);
             long queueSize;
+
+            logger.info("capturing " + queueName);
 
             try {
                 queue.connect(properties.getProperty("sidekiq.host"), Integer.parseInt(properties.getProperty("sidekiq.port")));
@@ -50,16 +54,15 @@ public class Handler {
             if (configuredForCloudwatch(queueName, properties)) {
                 Metric metric = new CloudwatchMetric(
                         properties.getProperty("sidekiq.queues." + queueName + ".cloudwatch.namespace"),
-                        properties.getProperty("sidekiq.queues." + queueName + ".cloudwatch.name"));
+                        properties.getProperty("sidekiq.queues." + queueName + ".cloudwatch.metric"));
                 metric.sendValue((double) queueSize);
             }
         }
     }
 
     private Properties loadProperties() {
-        try {
+        try (InputStream resourceStream = this.getClass().getResourceAsStream("/reporter.properties")) {
             Properties properties = new Properties();
-            InputStream resourceStream = this.getClass().getResourceAsStream("reporter.properties");
 
             if (resourceStream == null) {
                 throw new IOException();

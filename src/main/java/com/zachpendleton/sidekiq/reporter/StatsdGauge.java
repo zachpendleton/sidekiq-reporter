@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 
 public class StatsdGauge implements Metric {
     private static final Logger logger = Logger.getLogger(StatsdGauge.class);
@@ -45,9 +46,7 @@ public class StatsdGauge implements Metric {
                     port);
 
             socket.send(packet);
-        } catch (SocketException e) {
-            logger.error(e.getMessage());
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
     }
@@ -58,6 +57,6 @@ public class StatsdGauge implements Metric {
      * @param value the measurement to record
      */
     private byte[] valueToPacket(double value) {
-        return String.format("%s:%.2f|g", name, value).getBytes();
+        return String.format("%s:%.2f|g", name, value).getBytes(StandardCharsets.UTF_8);
     }
 }

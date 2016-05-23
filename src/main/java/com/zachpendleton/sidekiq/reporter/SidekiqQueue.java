@@ -6,7 +6,7 @@ import redis.clients.jedis.Jedis;
 /**
  * A Sidekiq queue with a name and a length.
  */
-public class SidekiqQueue {
+class SidekiqQueue {
     private static final Logger logger = Logger.getLogger(SidekiqQueue.class);
 
     private Jedis connection;

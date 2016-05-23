@@ -9,9 +9,9 @@ import org.apache.log4j.Logger;
  * A metric package for Cloudwatch
  */
 public class CloudwatchMetric implements Metric {
-    private static final AmazonCloudWatchClient client = new AmazonCloudWatchClient();
-
     private static final Logger logger = Logger.getLogger(CloudwatchMetric.class);
+
+    private final AmazonCloudWatchClient client;
 
     private final String name;
 
@@ -25,6 +25,7 @@ public class CloudwatchMetric implements Metric {
      * @param name the name of the metric field
      */
     public CloudwatchMetric(String namespace, String name) {
+        this.client = new AmazonCloudWatchClient();
         this.namespace = namespace;
         this.name = name;
     }
@@ -44,6 +45,7 @@ public class CloudwatchMetric implements Metric {
         request.setNamespace(namespace);
         request.withMetricData(datum);
 
+        logger.info(String.format("logging %.2f to cloudwatch metric %s/%s", value, namespace, name));
         client.putMetricData(request);
     }
 }

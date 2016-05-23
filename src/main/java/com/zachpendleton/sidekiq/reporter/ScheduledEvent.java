@@ -4,6 +4,8 @@ package com.zachpendleton.sidekiq.reporter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Arrays;
+
 /**
  * Scheduled Lambda event data wrapper
  */
@@ -47,7 +49,7 @@ public class ScheduledEvent {
     }
 
     public String[] getResources() {
-        return resources;
+        return Arrays.copyOf(resources, resources.length);
     }
 
     public String getSource() {
