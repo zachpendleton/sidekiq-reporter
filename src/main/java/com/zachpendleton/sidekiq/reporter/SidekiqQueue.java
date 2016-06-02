@@ -40,11 +40,13 @@ class SidekiqQueue {
      */
     public boolean connect(String host, int port, int databaseId) {
         connection = new Jedis(host, port);
+        connection.connect();
 
         if (connection.isConnected()) {
             connection.select(databaseId);
+        } else {
+            logger.error(String.format("unable to connect to redis on %s:%d", host, port));
         }
-
         return connection.isConnected();
     }
 
